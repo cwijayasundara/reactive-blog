@@ -1,0 +1,5 @@
+.idea
+project
+project/target/scala-2.10/
+project/target/streams/compile/incCompileSetup/
+src/main/java/
