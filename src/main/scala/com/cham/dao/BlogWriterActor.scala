@@ -13,13 +13,13 @@ class BlogWriterActor(cluster:Cluster) extends Actor {
 
   val session = cluster.connect(Keyspaces.blog)
 
-  val insertSql = "INSERT INTO blog_by_author(blogid, authorid,authorname,blogtitle,blogcontent,subjectarea," +
-                   "comments,createddatetime) VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
+  val insertSql = "INSERT INTO blog_by_author(blogid, authorid,authorname,blogtitle,blogcontent,subjectarea,comments,createddatetime) VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
+
 
   val preparedStatement = session.prepare(insertSql)
 
   def createBlog(blog: Blog): Unit = {
-    printf("Inside createBlog() of BlogWriterActor")
+    printf("Inside createBlog() of BlogWriterActor +++ ")
     session.executeAsync(preparedStatement.bind
      (blog.blogid,
       blog.authorId,

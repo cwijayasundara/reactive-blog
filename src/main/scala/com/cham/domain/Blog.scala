@@ -6,11 +6,11 @@ package com.cham.domain
 
 import java.util.Date
 
-case class Blog(blogid: BlogId,
-                authorId: AuthorId,
-                authorName: Text,
-                blogTitle: Text,
-                blogContent : Text,
-                subjectArea:Text,
-                comments:Text,
+case class Blog(blogid: String,
+                authorId: String,
+                authorName: String,
+                blogTitle: String,
+                blogContent : String,
+                subjectArea:String,
+                comments:String,
                 createdDateTime: Date)

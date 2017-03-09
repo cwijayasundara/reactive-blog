@@ -28,11 +28,11 @@ object ServiceTestMain extends App with ConfigCassandraCluster{
 
   val log =  Logging(system.eventStream, "blogapp")
 
-  val testBlog:Blog = new Blog("1","auth_1","Chaminda","Scala","Scala is great..","programming","good Scala blog",new Date())
+  val testBlog:Blog = new Blog("2","auth_2","Tom Holler","Akka","Scala is great..","programming","good Akka blog",new Date())
 
-  blogServiceActor ! BlogServiceActor.CreateBlog(testBlog)
+  //blogServiceActor ! BlogServiceActor.CreateBlog(testBlog)
   blogServiceActor ! BlogServiceActor.GetAllBlogs
   blogServiceActor ! BlogServiceActor.GetBlogCount
-  blogServiceActor ! BlogServiceActor.GetBlog("1")
+  blogServiceActor ! BlogServiceActor.GetBlog("2")
 
 }

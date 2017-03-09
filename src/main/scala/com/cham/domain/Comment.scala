@@ -6,8 +6,8 @@ import java.util.Date
   * Created by cwijayasundara on 08/03/2017.
   */
 
-class Comment(commentId:CommentId,
-              blogId:BlogId,
-              authorId:AuthorId,
-              comment:Text,
+class Comment(commentId: String,
+              blogId: String,
+              authorId: String,
+              comment: String,
               createdDateTime:Date)

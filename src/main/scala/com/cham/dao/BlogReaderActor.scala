@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat
 
 import akka.actor.Actor
 import com.cham.core.Keyspaces
-import com.cham.dao.BlogReaderActor.{CountAllBlogs, FindAllBlogs, findBlog}
+import com.cham.dao.BlogReaderActor.{CountAllBlogs, FindAllBlogs, FindBlog}
 import com.cham.domain.Blog
 import com.datastax.driver.core.querybuilder.QueryBuilder
 import com.datastax.driver.core.{BoundStatement, Cluster, Row}
@@ -19,7 +19,7 @@ class BlogReaderActor(cluster:Cluster) extends Actor {
 
   val countAll  = new BoundStatement(session.prepare("select count(*) from blog_by_author;"))
 
-  val findBlogsById = new BoundStatement(session.prepare("select * from blog_by_author where blogid ='1'")) // remove the hard coding
+  val findBlogsById = new BoundStatement(session.prepare("select * from blog_by_author where blogid ='2'")) // remove the hard coding
 
   import scala.collection.JavaConversions._
   import com.cham.cassandrautil.cassandra.resultset._
@@ -43,18 +43,18 @@ class BlogReaderActor(cluster:Cluster) extends Actor {
   def receive: Receive = {
 
     case FindAllBlogs(maximum:Int)  => {
-      println("Inside the FindAllBlogs() of the BlogReaderActor..")
+      println("Inside the FindAllBlogs() of the BlogReaderActor ++++")
       val query = QueryBuilder.select().all().from(Keyspaces.blog, "blog_by_author").limit(maximum)
       session.executeAsync(query) map (_.all().map(buildBlogObj).toVector) pipeTo sender
     }
 
     case CountAllBlogs => {
-      println("Inside the CountAllBlogs() of the BlogReaderActor..")
+      println("Inside the CountAllBlogs() of the BlogReaderActor ++++")
       session.executeAsync(countAll) map (_.one.getLong(0)) pipeTo sender
     }
 
-    case findBlog(blogId:String) => {
-      println("Inside findBlog() of the BlogReaderActor..")
+    case FindBlog(blogId:String) => {
+      println("Inside FindBlog() of the BlogReaderActor ++++")
       session.executeAsync(findBlogsById) map (_.one.getLong(0)) pipeTo sender
     }
   }
@@ -62,6 +62,6 @@ class BlogReaderActor(cluster:Cluster) extends Actor {
 
 object BlogReaderActor{
   case class FindAllBlogs(maximum: Int = 100)
-  case class findBlog(blogId:String)
+  case class FindBlog(blogId:String)
   case object CountAllBlogs
 }

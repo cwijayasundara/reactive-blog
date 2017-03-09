@@ -33,22 +33,34 @@ class BlogServiceActor(system:ActorSystem,cluster:Cluster) extends Actor{
 
     case GetAllBlogs(limit:Int) =>
     {
-      def notFound() = sender() ! None
+      println("Inside BlogServiceActor GetAllBlogs case **** ")
+
+      blogReader ! BlogReaderActor.FindAllBlogs(limit)
+
+      /*def notFound() = sender() ! None
       def getAllBlogs(child:ActorRef) = child forward BlogReaderActor.FindAllBlogs(limit)
-      context.child("blogs").fold(notFound())(getAllBlogs)
+      context.child("blogs").fold(notFound())(getAllBlogs)*/
     }
 
     case GetBlogCount =>
     {
-      def notFound() = sender() ! None
+      println("Inside BlogServiceActor GetBlogCount case **** ")
+
+      blogReader ! BlogReaderActor.CountAllBlogs
+
+      /*def notFound() = sender() ! None
       def getBlogCount(child: ActorRef) = child forward BlogReaderActor.CountAllBlogs
-      context.child("count").fold(notFound())(getBlogCount)
+      context.child("blogReader").fold(notFound())(getBlogCount)*/
     }
 
     case GetBlog(blogId) => {
-      def notFound() = sender() ! None
-      def getBlogByBlogId(child: ActorRef) = child forward BlogReaderActor.findBlog("1") // to do remove the hard coding
-      context.child(blogId).fold(notFound())(getBlogByBlogId)
+      println("Inside BlogServiceActor GetBlog case **** ")
+
+      blogReader ! BlogReaderActor.FindBlog("1")
+
+      /*def notFound() = sender() ! None
+      def getBlogByBlogId(child: ActorRef) = child forward BlogReaderActor.FindBlog("1") // to do remove the hard coding
+      context.child(blogId).fold(notFound())(getBlogByBlogId)*/
     }
   }
 }
